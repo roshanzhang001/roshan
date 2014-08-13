@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MumAssistant</string>
+    <string name="action_settings">Settings</string>
+	<string name="wifi_ctl">WLAN</string>
+	<string name="data_ctl">data connect</string>
+	<string name="payment_query_ctl">payment of the query</string>
+	<string name="location_ctl">location tag</string>
+	<string name="send">send control</string>
+	<string name="tel_num">you want control tel num:</string>
+
+
+	<string name="run_title">run application</string>
+	<string name="explain">When you checked,the app running</string>
+	<string name="Edit_title">please input phone num</string>
+	<string name="locationmessage">Are Open GPS?</string>
+</resources>

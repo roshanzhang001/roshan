@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+	<CheckBoxPreference
+	    android:key="run_app"
+	    android:summary="@string/explain"
+	    android:title="@string/run_title"
+	    android:defaultValue="true">
+	</CheckBoxPreference>
+
+	<EditTextPreference 
+	    android:defaultValue=""
+	    android:key="number_edit"
+	    android:title="@string/Edit_title">
+	</EditTextPreference>
+		    
+</PreferenceScreen>

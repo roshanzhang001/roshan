@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+<Switch 
+    android:id="@+id/switch_wifi"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentTop="true"
+    android:text="@string/wifi_ctl"
+    />
+
+<Switch 
+    android:id="@+id/switch_data"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignRight="@+id/switch_wifi"
+    android:layout_below="@+id/switch_wifi"
+    android:text="@string/data_ctl"
+    />
+
+<Switch 
+    android:id="@+id/switch_payment_query"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignRight="@+id/switch_data"
+    android:layout_below="@+id/switch_data"
+    android:text="@string/payment_query_ctl"
+    />
+
+<Switch
+    android:id="@+id/switch_location"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/switch_payment_query"
+    android:layout_alignRight="@+id/switch_payment_query"
+    android:layout_below="@+id/switch_payment_query"
+    android:text="@string/location_ctl" />
+
+<TextView 
+    android:id="@+id/text_tel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/edit_tel" 
+    android:layout_alignParentLeft="true"
+    android:layout_alignRight="@+id/edit_tel"
+    android:text="@string/tel_num"
+    />
+
+<Button 
+    android:id="@+id/button_send"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignRight="@+id/switch_payment_query"
+    android:text="@string/send" 
+    />
+
+<EditText
+    android:id="@+id/edit_tel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/button_send"
+    android:layout_alignLeft="@+id/switch_payment_query"
+    android:ems="10"
+    android:inputType="phone" >
+
+    <requestFocus />
+</EditText>
+
+
+
+</RelativeLayout>
