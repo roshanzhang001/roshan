@@ -9,9 +9,9 @@ import android.preference.PreferenceManager;
 import android.sax.StartElementListener;
 import android.telephony.SmsMessage;
 
-public class locationReceiver extends BroadcastReceiver{
-	String lat = null;
-	String lon = null;
+public class LocationReceiver extends BroadcastReceiver{
+	String mLat = null;
+	String mLon = null;
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
@@ -27,20 +27,20 @@ public class locationReceiver extends BroadcastReceiver{
 					String[] ss = content.split("#");
 					for (int i = 0; i < ss.length; i++) {
 						if(ss[i].indexOf("lat") >= 0){
-							lat = ss[i].substring(4, ss[i].length());
+							mLat = ss[i].substring(4, ss[i].length());
 						}
 						if(ss[i].indexOf("lon") >= 0){
-							lon = ss[i].substring(4, ss[i].length());
+							mLon = ss[i].substring(4, ss[i].length());
 						}
 					}
 					
-					if((lat != null)&&(lon != null)){
+					if((mLat != null)&&(mLon != null)){
 						Intent locationintent = new Intent();
 						Bundle locationbundle = new Bundle();
-						locationbundle.putString("lat", lat);
-						locationbundle.putString("lon", lon);
+						locationbundle.putString("lat", mLat);
+						locationbundle.putString("lon", mLon);
 						locationintent.putExtras(locationbundle);
-						locationintent.setClass(context, locationactivity.class);
+						locationintent.setClass(context, LocationActivity.class);
 						locationintent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 						context.startActivity(locationintent);
 					}

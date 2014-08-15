@@ -21,19 +21,22 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class locationactivity extends Activity implements
+public class LocationActivity extends Activity implements
 OnGetGeoCoderResultListener{
 	
 	GeoCoder mSearch = null; // 搜索模块，也可去掉地图模块独立使用
 	BaiduMap mBaiduMap = null;
 	MapView mMapView = null;
+	private EditText mLat_edit;
+	private EditText mLon_edit;
+	private EditText mEditCity;
+	private EditText mEditGeoCodeKey;
 	
 	public void SearchButtonProcess(View v) {
 		if (v.getId() == R.id.reversegeocode) {
-			EditText lat = (EditText) findViewById(R.id.lat);
-			EditText lon = (EditText) findViewById(R.id.lon);
-			String lat_str = lat.getText().toString();
-			String lon_str = lon.getText().toString();
+			String lat_str = mLat_edit.getText().toString();
+			String lon_str = mLon_edit.getText().toString();
+			
 			if(lat_str == null || lon_str == null 
 					||(lat_str.length() == 0)
 					||(lon_str.length() == 0)){
@@ -45,10 +48,8 @@ OnGetGeoCoderResultListener{
 			mSearch.reverseGeoCode(new ReverseGeoCodeOption()
 					.location(ptCenter));
 		} else if (v.getId() == R.id.geocode) {
-			EditText editCity = (EditText) findViewById(R.id.city);
-			EditText editGeoCodeKey = (EditText) findViewById(R.id.geocodekey);
-			String editCity_str = editCity.getText().toString();
-			String editGeoCodeKey_str = editGeoCodeKey.getText().toString();
+			String editCity_str = mEditCity.getText().toString();
+			String editGeoCodeKey_str = mEditGeoCodeKey.getText().toString();
 			if(editCity_str == null || editGeoCodeKey_str == null 
 					||(editCity_str.length() == 0)
 					||(editGeoCodeKey_str.length() == 0)){
@@ -65,7 +66,7 @@ OnGetGeoCoderResultListener{
 	public void onGetGeoCodeResult(GeoCodeResult result) {
 		// TODO Auto-generated method stub
 		if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-			Toast.makeText(locationactivity.this, "抱歉，未能找到结果", Toast.LENGTH_LONG)
+			Toast.makeText(LocationActivity.this, "抱歉，未能找到结果", Toast.LENGTH_LONG)
 					.show();
 		}
 		mBaiduMap.clear();
@@ -76,18 +77,16 @@ OnGetGeoCoderResultListener{
 				.getLocation()));
 		String strInfo = String.format("纬度：%f 经度：%f",
 				result.getLocation().latitude, result.getLocation().longitude);
-		Toast.makeText(locationactivity.this, strInfo, Toast.LENGTH_LONG).show();
-		EditText lat = (EditText) findViewById(R.id.lat);
-		EditText lon = (EditText) findViewById(R.id.lon);
-		lat.setText((result.getLocation().latitude)+"");
-		lon.setText((result.getLocation().longitude)+"");
+		Toast.makeText(LocationActivity.this, strInfo, Toast.LENGTH_LONG).show();
+		mLat_edit.setText((result.getLocation().latitude)+"");
+		mLon_edit.setText((result.getLocation().longitude)+"");
 	}
 
 	@Override
 	public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
 		// TODO Auto-generated method stub
 		if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-			Toast.makeText(locationactivity.this, "抱歉，未能找到结果", Toast.LENGTH_LONG)
+			Toast.makeText(LocationActivity.this, "抱歉，未能找到结果", Toast.LENGTH_LONG)
 					.show();
 		}
 		mBaiduMap.clear();
@@ -96,15 +95,12 @@ OnGetGeoCoderResultListener{
 						.fromResource(R.drawable.icon_marka)));
 		mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(result
 				.getLocation()));
-		Toast.makeText(locationactivity.this, result.getAddress(),
+		Toast.makeText(LocationActivity.this, result.getAddress(),
 				Toast.LENGTH_LONG).show();
-		EditText editGeoCodeKey = (EditText) findViewById(R.id.geocodekey);
-		EditText editCity = (EditText) findViewById(R.id.city);
+		
 		String[] ss = result.getAddress().split("市");
-		
-		editCity.setText(ss[0]);
-		
-		editGeoCodeKey.setText(ss[1]);
+		mEditCity.setText(ss[0]);
+		mEditGeoCodeKey.setText(ss[1]);
 	}
 
 	@Override
@@ -115,16 +111,18 @@ OnGetGeoCoderResultListener{
 		setContentView(R.layout.locationactivity);
 		CharSequence titleLable = "地理查找功能";
 		setTitle(titleLable);
-
+		mEditCity = (EditText) findViewById(R.id.city);
+		mEditGeoCodeKey = (EditText) findViewById(R.id.geocodekey);
+		mLat_edit = (EditText) findViewById(R.id.lat);
+		mLon_edit = (EditText) findViewById(R.id.lon);
+		
 		Bundle bundle=getIntent().getExtras();
 		if(bundle != null){
 			String lat=bundle.getString("lat");
 			String lon=bundle.getString("lon");
 			if((lat != null) && (lon != null)){
-				EditText lat_edit = (EditText) findViewById(R.id.lat);
-				EditText lon_edit = (EditText) findViewById(R.id.lon);
-				lat_edit.setText(lat);
-				lon_edit.setText(lon);
+				mLat_edit.setText(lat);
+				mLon_edit.setText(lon);
 			}
 		}
 		// 地图初始化

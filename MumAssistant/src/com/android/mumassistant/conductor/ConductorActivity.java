@@ -19,25 +19,26 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class conductoractivity extends Activity {
+public class ConductorActivity extends Activity {
 	
-	private static int wifi_value = 0;
-	private static int data_value = 0;
-	private static int payment_value = 0;
-	private static int location_value = 0;
+	private static int mWifi_value = 0;
+	private static int mData_value = 0;
+	private static int mPayment_value = 0;
+	private static int mLocation_value = 0;
 	
-	private final String target = "##";
-	private final String wifi_tag = "#wifi_";
-	private final String data_tag = "#data_";
-	private final String payment_tag = "#payment_";
-	private final String location_tag = "#location_";
+	private final String mTarget = "##";
+	private final String mWifi_tag = "#wifi_";
+	private final String mData_tag = "#data_";
+	private final String mPayment_tag = "#payment_";
+	private final String mLocation_tag = "#location_";
 
-	private Switch wifi_ctrl;
-	private Switch data_ctrl;
-	private Switch payment_ctrl;
-	private Switch location_ctrl;
-	private Button send_btn;
-	private EditText tel_num;
+	private Switch mWifi_ctrl;
+	private Switch mData_ctrl;
+	private Switch mPayment_ctrl;
+	private Switch mLocation_ctrl;
+	private Button mSend_btn;
+	private EditText mTel_num;
+	private SharedPreferences shp;
 	SmsManager smsManager;
 	
 	private OnCheckedChangeListener WifiOnCheckChangeListener = new OnCheckedChangeListener(){
@@ -46,9 +47,9 @@ public class conductoractivity extends Activity {
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 			// TODO Auto-generated method stub
 			if(arg1){
-				wifi_value = 1;
+				mWifi_value = 1;
 			}else{
-				wifi_value = 0;
+				mWifi_value = 0;
 			}
 		}
 		
@@ -60,9 +61,9 @@ public class conductoractivity extends Activity {
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 			// TODO Auto-generated method stub
 			if(arg1){
-				data_value = 1;
+				mData_value = 1;
 			}else{
-				data_value = 0;
+				mData_value = 0;
 			}
 		}
 		
@@ -74,9 +75,9 @@ public class conductoractivity extends Activity {
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 			// TODO Auto-generated method stub
 			if(arg1){
-				payment_value = 1;
+				mPayment_value = 1;
 			}else{
-				payment_value = 0;
+				mPayment_value = 0;
 			}
 		}
 		
@@ -88,9 +89,9 @@ public class conductoractivity extends Activity {
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 			// TODO Auto-generated method stub
 			if(arg1){
-				location_value = 1;
+				mLocation_value = 1;
 			}else{
-				location_value = 0;
+				mLocation_value = 0;
 			}
 		}
 		
@@ -101,17 +102,20 @@ public class conductoractivity extends Activity {
 		@Override
 		public void onClick(View arg0) {
 			// TODO Auto-generated method stub
-			SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			if(shp == null){
+				return;
+			}
 			String oldnum = shp.getString("ctrlnum", "");
-			String telnum = tel_num.getText().toString().trim();
+			String telnum = mTel_num.getText().toString().trim();
 			
-			if(!oldnum.equals(tel_num.getText().toString())){
+			if(!oldnum.equals(mTel_num.getText().toString())){
 				Editor editor = shp.edit();
 				editor.putString("ctrlnum", telnum);
 				editor.commit();
 			}
-			String message = target + wifi_tag + wifi_value + data_tag + 
-					data_value + payment_tag + payment_value + location_tag + location_value;
+			String message = mTarget + mWifi_tag + mWifi_value + mData_tag + 
+					mData_value + mPayment_tag + mPayment_value + mLocation_tag + mLocation_value;
+			
 			if((null != telnum)&&(null != message)){
 				smsManager = SmsManager.getDefault();
 				smsManager.sendTextMessage(telnum, null, message, null, null);
@@ -124,23 +128,26 @@ public class conductoractivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_conductor);
-        wifi_ctrl = (Switch)findViewById(R.id.switch_wifi);
-        data_ctrl = (Switch)findViewById(R.id.switch_data);
-        payment_ctrl = (Switch)findViewById(R.id.switch_payment_query);
-        location_ctrl = (Switch)findViewById(R.id.switch_location);
-        send_btn = (Button)findViewById(R.id.button_send);
-        tel_num = (EditText)findViewById(R.id.edit_tel);
+          
+        mWifi_ctrl = (Switch)findViewById(R.id.switch_wifi);
+        mWifi_ctrl.setOnCheckedChangeListener(WifiOnCheckChangeListener);
         
-        wifi_ctrl.setOnCheckedChangeListener(WifiOnCheckChangeListener);
-        data_ctrl.setOnCheckedChangeListener(DataOnCheckChangeListener);
-        payment_ctrl.setOnCheckedChangeListener(PaymentOnCheckChangeListener);
-        location_ctrl.setOnCheckedChangeListener(LocationOnCheckChangeListener);
+        mData_ctrl = (Switch)findViewById(R.id.switch_data);
+        mData_ctrl.setOnCheckedChangeListener(DataOnCheckChangeListener);
         
-        send_btn.setOnClickListener(SendOnCheckedChangeListener);
+        mPayment_ctrl = (Switch)findViewById(R.id.switch_payment_query);
+        mPayment_ctrl.setOnCheckedChangeListener(PaymentOnCheckChangeListener);
         
-		SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        mLocation_ctrl = (Switch)findViewById(R.id.switch_location);
+        mLocation_ctrl.setOnCheckedChangeListener(LocationOnCheckChangeListener);
+        
+        mSend_btn = (Button)findViewById(R.id.button_send);
+        mSend_btn.setOnClickListener(SendOnCheckedChangeListener);
+        
+		shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		String oldnum = shp.getString("ctrlnum", "");
-		tel_num.setText(oldnum);
+		mTel_num = (EditText)findViewById(R.id.edit_tel);
+		mTel_num.setText(oldnum);
     }
 
 
@@ -148,16 +155,16 @@ public class conductoractivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        menu.add(0, 1, 0, "location"); 
+        menu.add(0, 1, 0, R.string.location_menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	 switch (item.getItemId()) {
     	 	case 1:
-    	 		Intent locationcheck = new Intent();
-    	 		locationcheck.setClass(this, locationactivity.class);
-    	 		startActivity(locationcheck);
+    	 		Intent locationView = new Intent();
+    	 		locationView.setClass(this, LocationActivity.class);
+    	 		startActivity(locationView);
     	 		break;
     	 	default:
     	 		break;

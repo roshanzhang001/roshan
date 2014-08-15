@@ -15,4 +15,5 @@
 	<string name="explain">When you checked,the app running</string>
 	<string name="Edit_title">please input phone num</string>
 	<string name="locationmessage">Are Open GPS?</string>
+	<string name="location_menu">location</string>
 </resources>

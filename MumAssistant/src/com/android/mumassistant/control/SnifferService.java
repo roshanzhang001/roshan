@@ -30,27 +30,25 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.WindowManager;
 
-public class snifferService extends Service{
+public class SnifferService extends Service{
 	
+	private static final String TAG = "SnifferService";
 	private static final String SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
-	private final String wifi_tag = "wifi_";
-	private final String data_tag = "data_";
-	private final String payment_tag = "payment_";
-	private final String location_tag = "location_";
-	private boolean wifi_value; 
-	private boolean data_value;
-	private boolean payment_value;
-	private boolean locationt_value;
-	private String operator_current = "";
-	private LocationClient locationClient = null;
+	private final String mWifiTag = "wifi_";
+	private final String mDataTag = "data_";
+	private final String mPaymentTag = "payment_";
+	private final String mLocationTag = "location_";
+	private boolean mWifiValue; 
+	private boolean mDataValue;
+	private boolean mPaymentValue;
+	private boolean mLocationtValue;
+	private String mOperatorCurrent = "";
+	private LocationClient mLocationClient = null;
 
+	private double mLatitude = 0;
+	private double mLongitude = 0;
 
-	double latitude = 0;
-	double longitude = 0;
-
-	
-
-	String bindaddress = null;
+	private String BindTelnum = null;
 
 	private location_thread locationthread = new location_thread();
 	
@@ -60,11 +58,11 @@ public class snifferService extends Service{
 		public void run() {
 			// TODO Auto-generated method stub
 			super.run();
-			Log.v("zjm","zjm location thread run");
-			locationClient.start();
-			locationClient.requestLocation();
+			Log.v(TAG,"location thread run");
+			mLocationClient.start();
+			mLocationClient.requestLocation();
 
-			while((latitude == 0)&&(longitude == 0)){
+			while((mLatitude == 0)&&(mLongitude == 0)){
 				try {
 					sleep(2000);
 				} catch (InterruptedException e) {
@@ -72,14 +70,14 @@ public class snifferService extends Service{
 					e.printStackTrace();
 				}
 			}
-				if((latitude != 0)&&(longitude != 0)){
-					String message = "**XY#"+"lat_"+latitude+"#"+"lon_"+longitude;
-					if((!("0000").equals(bindaddress))&&(null != message)){
+				if((mLatitude != 0)&&(mLongitude != 0)){
+					String message = "**XY#"+"lat_"+mLatitude+"#"+"lon_"+mLongitude;
+					if((!("0000").equals(BindTelnum))&&(null != message)){
 						smsManager = SmsManager.getDefault();
-						smsManager.sendTextMessage(bindaddress, null, message, null, null);
+						smsManager.sendTextMessage(BindTelnum, null, message, null, null);
 					}
 					
-					locationClient.stop();
+					mLocationClient.stop();
 				}
 			}
 	}
@@ -95,12 +93,10 @@ public class snifferService extends Service{
 					SmsMessage message = SmsMessage.createFromPdu((byte[]) pdu);
 					String address = message.getOriginatingAddress();
 					String content = message.getMessageBody();
-					if(operator_current.equals(address) ){
+					if(mOperatorCurrent.equals(address)&&(BindTelnum != null)){
 						SmsManager smsManager;
-						SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-						String bindaddress = shp.getString("number_edit", "0000");
 						smsManager = SmsManager.getDefault();
-						smsManager.sendTextMessage(bindaddress, null, content, null, null);
+						smsManager.sendTextMessage(BindTelnum, null, content, null, null);
 					
 					}
 				}
@@ -120,7 +116,7 @@ public class snifferService extends Service{
 			return 0;
 		}
 		SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		bindaddress = shp.getString("number_edit", "0000");
+		BindTelnum = shp.getString("number_edit", "0000");
 		
 		Bundle myBundel=intent.getExtras();
 
@@ -130,42 +126,42 @@ public class snifferService extends Service{
 		if(null != message){
 			String[] ss = message.split("#");
 			for (int i = 0; i < ss.length; i++) {
-				if(ss[i].indexOf(wifi_tag) >= 0){
+				if(ss[i].indexOf(mWifiTag) >= 0){
 					if((ss[i].substring(ss[i].length()-1)).equals("1")){
-						wifi_value = true;
+						mWifiValue = true;
 					}else{
-						wifi_value = false;
+						mWifiValue = false;
 					}
 					
 				}
-				if(ss[i].indexOf(data_tag) >= 0){
+				if(ss[i].indexOf(mDataTag) >= 0){
 					if((ss[i].substring(ss[i].length()-1)).equals("1")){
-						data_value = true;
+						mDataValue = true;
 					}else{
-						data_value = false;
+						mDataValue = false;
 					}
 					
 				}
-				if(ss[i].indexOf(payment_tag) >= 0){
+				if(ss[i].indexOf(mPaymentTag) >= 0){
 					if((ss[i].substring(ss[i].length()-1)).equals("1")){
-						payment_value = true;
+						mPaymentValue = true;
 					}else{
-						payment_value = false;
+						mPaymentValue = false;
 					}
 				}
-				if(ss[i].indexOf(location_tag) >= 0){
+				if(ss[i].indexOf(mLocationTag) >= 0){
 					if((ss[i].substring(ss[i].length()-1)).equals("1")){
-						locationt_value = true;
+						mLocationtValue = true;
 					}else{
-						locationt_value = false;
+						mLocationtValue = false;
 					}
 				}
 			}
 			
-			setMobileDataStatus(getApplicationContext(),data_value);
-			setWifi(wifi_value);
-			SendPaymentOfQueryMessage(payment_value);
-			getLocation(locationt_value);
+			setMobileDataStatus(getApplicationContext(),mDataValue);
+			setWifi(mWifiValue);
+			SendPaymentOfQueryMessage(mPaymentValue);
+			getLocation(mLocationtValue);
 			//this.stopSelf();
 		}
 		return super.onStartCommand(intent, flags, startId);
@@ -249,31 +245,30 @@ public class snifferService extends Service{
 		if(imsi!=null){
 			if(imsi.startsWith("46000") || imsi.startsWith("46002")){
 				//移动
-				operator_current = "10086";
+				mOperatorCurrent = "10086";
 
 			}else if(imsi.startsWith("46001")){
 				//联通
-				operator_current = "10010";
+				mOperatorCurrent = "10010";
 
 			}else if(imsi.startsWith("46003")){
 				//电信
-				operator_current = "10001";
+				mOperatorCurrent = "10001";
 
 			}
 		}
-		if((operator_current.length() > 0)&&(message.length() > 0)){
-			smsManager.sendTextMessage(operator_current, null, message , null, null);
+		if((mOperatorCurrent.length() > 0)&&(message.length() > 0)){
+			smsManager.sendTextMessage(mOperatorCurrent, null, message , null, null);
 			 IntentFilter filter = new IntentFilter();
 			 filter.addAction(SMS_ACTION);
 			 this.registerReceiver(paymentlistener, filter);
 		}
 	}
 	private void getLocation(boolean Enabled){
-		Log.v("zjm","zjm location yes");
 		if(Enabled == false){
 			return ;
 		}
-		locationClient = new LocationClient(getApplicationContext());
+		mLocationClient = new LocationClient(getApplicationContext());
 		LocationClientOption option = new LocationClientOption();
 		option.setOpenGps(true);
 		option.setCoorType("bd09ll");
@@ -281,23 +276,20 @@ public class snifferService extends Service{
 		option.setProdName("MumAssistant");
 		option.setScanSpan(5000);
 		option.setServiceName("com.baidu.location.service");
-		locationClient.setLocOption(option);
+		mLocationClient.setLocOption(option);
 
-		locationClient.registerLocationListener(new BDLocationListener() {
+		mLocationClient.registerLocationListener(new BDLocationListener() {
 			
 
 			@Override
 			public void onReceiveLocation(BDLocation location) {
 				// TODO Auto-generated method stub
 				if (location == null) {
-					Log.v("zjm","zjm BD location null");
+					Log.v(TAG,"BD location null");
 					return;
 				}
-				latitude = location.getLatitude();
-				longitude = location.getLongitude();
-				
-				
-				Log.v("zjm","zjm latitude longitude:"+latitude+longitude);
+				mLatitude = location.getLatitude();
+				mLongitude = location.getLongitude();
 
 			}
 
@@ -308,40 +300,8 @@ public class snifferService extends Service{
 			}
 		
 		});
-
 		locationthread.start();
-		
 	}
-	private void locationDialog(){
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(R.string.locationmessage)
-		.setNegativeButton("yes", new DialogInterface.OnClickListener(){
-
-			@Override
-			public void onClick(DialogInterface arg0, int arg1) {
-				// TODO Auto-generated method stub
-				 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-				 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				 startActivity(intent);
-				 locationthread.start();
-				 arg0.dismiss();
-			}
-			
-		}).setPositiveButton("no", new OnClickListener(){
-
-			@Override
-			public void onClick(DialogInterface arg0, int arg1) {
-				// TODO Auto-generated method stub
-				arg0.dismiss();
-			}
-			
-		});
-		AlertDialog ad = builder.create();
-		ad.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-		ad.setCanceledOnTouchOutside(false); 
-		ad.show(); 
-	}
-	
 
 	@Override
 	public void onDestroy() {
@@ -352,8 +312,8 @@ public class snifferService extends Service{
 		}catch(Exception e){
 			
 		}
-		if((locationClient != null)&&(locationClient.isStarted())){
-			locationClient.stop();
+		if((mLocationClient != null)&&(mLocationClient.isStarted())){
+			mLocationClient.stop();
 		}
 	}
 

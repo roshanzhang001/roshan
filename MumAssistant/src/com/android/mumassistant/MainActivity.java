@@ -18,17 +18,21 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	private String[] mListTitle = null; 
 	private String[] mListStr = null;
-	ListView mListView = null;
-	ArrayList<Map<String,Object>> mData= new ArrayList<Map<String,Object>>();
-	Intent conductorintent = new Intent("com.android.mumassistant.conductor.conductoractivity");
-	Intent controlintent = new Intent("com.android.mumassistant.control.SnifferSettingView");
-    @Override
+	private ListView mListView = null;
+	
+	private ArrayList<Map<String,Object>> mData= new ArrayList<Map<String,Object>>();
+	private Intent mConductorintent = new Intent("com.android.mumassistant.conductor.ConductorActivity");
+	private Intent mControlintent = new Intent("com.android.mumassistant.control.SnifferSettingView");
+    
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
         mListView = (ListView)findViewById(R.id.enter_list);
         mListTitle = getApplicationContext().getResources().getStringArray(R.array.enter_list);
         mListStr = getApplicationContext().getResources().getStringArray(R.array.enter_list_summary);
+        
         int lengh = mListTitle.length;
         for(int i =0; i < lengh; i++) {  
             Map<String,Object> item = new HashMap<String,Object>();
@@ -52,22 +56,13 @@ public class MainActivity extends Activity {
 					long arg3) {
 				// TODO Auto-generated method stub
 				if(arg2 == 0){
-					startActivity(controlintent);
+					startActivity(mControlintent);
 				}else if(arg2 == 1){
-					startActivity(conductorintent);
+					startActivity(mConductorintent);
 				}
 			}  
         });  
 
         
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    
 }
