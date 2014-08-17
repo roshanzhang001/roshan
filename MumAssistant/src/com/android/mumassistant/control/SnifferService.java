@@ -50,7 +50,7 @@ public class SnifferService extends Service{
 
 	private String BindTelnum = null;
 
-	private location_thread locationthread = new location_thread();
+	private location_thread mLocationThread = new location_thread();
 	
 	private class location_thread extends Thread{
 		SmsManager smsManager;
@@ -116,10 +116,8 @@ public class SnifferService extends Service{
 			return 0;
 		}
 		SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		BindTelnum = shp.getString("number_edit", "0000");
-		
+		BindTelnum = shp.getString("number_edit", "0000");		
 		Bundle myBundel=intent.getExtras();
-
 		String message = myBundel.getString("Message");
 		
 		
@@ -169,8 +167,7 @@ public class SnifferService extends Service{
 	
 	
 	private void setMobileDataStatus(Context context, boolean enabled){
-		ConnectivityManager conMgr = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE); 
-	
+		ConnectivityManager conMgr = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE); 	
 		// ConnectivityManager类  
 		Class<?> conMgrClass = null;
 		// ConnectivityManager类中的字段
@@ -300,7 +297,7 @@ public class SnifferService extends Service{
 			}
 		
 		});
-		locationthread.start();
+		mLocationThread.start();
 	}
 
 	@Override
