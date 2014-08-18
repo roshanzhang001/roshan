@@ -16,4 +16,5 @@
 	<string name="Edit_title">please input phone num</string>
 	<string name="locationmessage">Are Open GPS?</string>
 	<string name="location_menu">location</string>
+	<string name="sim_change">sim changed</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.android.mumassistant;
 
 public class Utils {
+	public final static String OLDSIM = "oldsim";
 	public final static String APPRUN = "run_app";
 	public final static String TELNUM = "number_edit";
 	public final static String CTRLNUM = "ctrlnum";
