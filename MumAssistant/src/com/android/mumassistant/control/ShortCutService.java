@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -219,7 +221,7 @@ public class ShortCutService extends Service{
 		Display mDisplay = mWindowManager.getDefaultDisplay();
 		Matrix mDisplayMatrix = new Matrix();	
 		DisplayMetrics mDisplayMetrics = new DisplayMetrics();
-		Bitmap mScreenBitmap;
+		Bitmap mScreenBitmap = null;
 		mDisplay.getRealMetrics(mDisplayMetrics);
 		float[] dims = { mDisplayMetrics.widthPixels,
 				mDisplayMetrics.heightPixels };
@@ -232,8 +234,29 @@ public class ShortCutService extends Service{
 			dims[0] = Math.abs(dims[0]);
 			dims[1] = Math.abs(dims[1]);
 		}
-		mScreenBitmap = Surface.screenshot((int) dims[0], (int) dims[1]);
-		
+		//mScreenBitmap = Surface.screenshot((int) dims[0], (int) dims[1]);
+		try {
+			Class<?> testClass = Class.forName(Surface.class.getName());
+			Method[] methods = testClass.getMethods();
+			Method saddMethod1 = testClass.getMethod("screenshot", new Class[]{int.class ,int.class});
+			mScreenBitmap = (Bitmap) saddMethod1.invoke(null, new Object[]{(int) dims[0],(int) dims[1]});
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		mScreenBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
 		
