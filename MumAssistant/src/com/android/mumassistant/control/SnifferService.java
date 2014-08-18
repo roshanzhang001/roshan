@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import com.android.mumassistant.R;
+import com.android.mumassistant.Utils;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -34,10 +35,7 @@ public class SnifferService extends Service{
 	
 	private static final String TAG = "SnifferService";
 	private static final String SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
-	private final String mWifiTag = "wifi_";
-	private final String mDataTag = "data_";
-	private final String mPaymentTag = "payment_";
-	private final String mLocationTag = "location_";
+
 	private boolean mWifiValue; 
 	private boolean mDataValue;
 	private boolean mPaymentValue;
@@ -124,7 +122,7 @@ public class SnifferService extends Service{
 		if(null != message){
 			String[] ss = message.split("#");
 			for (int i = 0; i < ss.length; i++) {
-				if(ss[i].indexOf(mWifiTag) >= 0){
+				if(ss[i].indexOf(Utils.SSWIFITAG) >= 0){
 					if((ss[i].substring(ss[i].length()-1)).equals("1")){
 						mWifiValue = true;
 					}else{
@@ -132,7 +130,7 @@ public class SnifferService extends Service{
 					}
 					
 				}
-				if(ss[i].indexOf(mDataTag) >= 0){
+				if(ss[i].indexOf(Utils.SSDATATAG) >= 0){
 					if((ss[i].substring(ss[i].length()-1)).equals("1")){
 						mDataValue = true;
 					}else{
@@ -140,14 +138,14 @@ public class SnifferService extends Service{
 					}
 					
 				}
-				if(ss[i].indexOf(mPaymentTag) >= 0){
+				if(ss[i].indexOf(Utils.SSPAYTAG) >= 0){
 					if((ss[i].substring(ss[i].length()-1)).equals("1")){
 						mPaymentValue = true;
 					}else{
 						mPaymentValue = false;
 					}
 				}
-				if(ss[i].indexOf(mLocationTag) >= 0){
+				if(ss[i].indexOf(Utils.SSLOCALTAG) >= 0){
 					if((ss[i].substring(ss[i].length()-1)).equals("1")){
 						mLocationtValue = true;
 					}else{

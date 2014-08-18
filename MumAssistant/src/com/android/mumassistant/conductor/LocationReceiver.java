@@ -1,5 +1,7 @@
 package com.android.mumassistant.conductor;
 
+import com.android.mumassistant.Utils;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,19 +19,19 @@ public class LocationReceiver extends BroadcastReceiver{
 		// TODO Auto-generated method stub
 		if("android.provider.Telephony.SMS_RECEIVED".equals(intent.getAction())){
 			SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(context);
-			String oldnum = shp.getString("ctrlnum", "");
+			String oldnum = shp.getString(Utils.CTRLNUM, "");
 			Object[] pdus = (Object[]) intent.getExtras().get("pdus");
 			for (Object pdu : pdus) {
 				SmsMessage message = SmsMessage.createFromPdu((byte[]) pdu);
 				String address = message.getOriginatingAddress();
 				String content = message.getMessageBody();
-				if((address.indexOf(oldnum)>=1)&&(content.substring(0,4).equals("**XY"))){
-					String[] ss = content.split("#");
+				if((address.indexOf(oldnum)>=1)&&(content.substring(0,4).equals(Utils.LOCALSMSTAG))){
+					String[] ss = content.split(Utils.SPLIT);
 					for (int i = 0; i < ss.length; i++) {
-						if(ss[i].indexOf("lat") >= 0){
+						if(ss[i].indexOf(Utils.LATTAG) >= 0){
 							mLat = ss[i].substring(4, ss[i].length());
 						}
-						if(ss[i].indexOf("lon") >= 0){
+						if(ss[i].indexOf(Utils.LONTAG) >= 0){
 							mLon = ss[i].substring(4, ss[i].length());
 						}
 					}

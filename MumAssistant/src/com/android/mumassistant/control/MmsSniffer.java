@@ -2,6 +2,8 @@ package com.android.mumassistant.control;
 
 import java.util.ArrayList;
 
+import com.android.mumassistant.Utils;
+
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.BroadcastReceiver;
@@ -26,7 +28,7 @@ public class MmsSniffer extends BroadcastReceiver{
 		// TODO Auto-generated method stub
 		
 		SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(context);
-		boolean run_app = shp.getBoolean("run_app", false);
+		boolean run_app = shp.getBoolean(Utils.APPRUN, false);
 		if(false == run_app){
 			return;
 		}
@@ -39,11 +41,11 @@ public class MmsSniffer extends BroadcastReceiver{
 				mContent = message.getMessageBody();				
 				mAddress = message.getOriginatingAddress(); 
 			}
-			mBindaddress = shp.getString("number_edit", "0000");
+			mBindaddress = shp.getString(Utils.TELNUM, "0000");
 			mTargcontent = mContent.substring(0,2);
 
 			try{
-				if((mAddress.indexOf(mBindaddress) >= 1) && ("##".equals(mTargcontent))){
+				if((mAddress.indexOf(mBindaddress) >= 1) && (Utils.TARGET.equals(mTargcontent))){
 					
 					if(isWorked(context)){
 						Intent intent_stop = new Intent(context,SnifferService.class);

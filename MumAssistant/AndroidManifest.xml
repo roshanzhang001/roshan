@@ -103,6 +103,7 @@
             </intent-filter>
         </service>
         
+        <service android:name="com.android.mumassistant.control.ShortCutService"></service>
     </application>
 
 </manifest>

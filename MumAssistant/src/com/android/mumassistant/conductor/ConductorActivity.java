@@ -1,6 +1,7 @@
 package com.android.mumassistant.conductor;
 
 import com.android.mumassistant.R;
+import com.android.mumassistant.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,17 +22,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class ConductorActivity extends Activity {
 	
-	private static int mWifi_value = 0;
-	private static int mData_value = 0;
-	private static int mPayment_value = 0;
-	private static int mLocation_value = 0;
+	private int mWifi_value = 0;
+	private int mData_value = 0;
+	private int mPayment_value = 0;
+	private int mLocation_value = 0;
 	
-	private final String mTarget = "##";
-	private final String mWifi_tag = "#wifi_";
-	private final String mData_tag = "#data_";
-	private final String mPayment_tag = "#payment_";
-	private final String mLocation_tag = "#location_";
-
 	private Switch mWifi_ctrl;
 	private Switch mData_ctrl;
 	private Switch mPayment_ctrl;
@@ -105,16 +100,16 @@ public class ConductorActivity extends Activity {
 			if(shp == null){
 				return;
 			}
-			String oldnum = shp.getString("ctrlnum", "");
+			String oldnum = shp.getString(Utils.CTRLNUM, "");
 			String telnum = mTel_num.getText().toString().trim();
 			
 			if(!oldnum.equals(mTel_num.getText().toString())){
 				Editor editor = shp.edit();
-				editor.putString("ctrlnum", telnum);
+				editor.putString(Utils.CTRLNUM, telnum);
 				editor.commit();
 			}
-			String message = mTarget + mWifi_tag + mWifi_value + mData_tag + 
-					mData_value + mPayment_tag + mPayment_value + mLocation_tag + mLocation_value;
+			String message = Utils.TARGET + Utils.WIFITAG + mWifi_value + Utils.DATATAG + 
+					mData_value + Utils.PAYTAG + mPayment_value + Utils.LOCATIONTAG + mLocation_value;
 			
 			if((null != telnum)&&(null != message)){
 				smsManager = SmsManager.getDefault();
@@ -145,7 +140,7 @@ public class ConductorActivity extends Activity {
         mSend_btn.setOnClickListener(SendOnCheckedChangeListener);
         
 		shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		String oldnum = shp.getString("ctrlnum", "");
+		String oldnum = shp.getString(Utils.CTRLNUM, "");
 		mTel_num = (EditText)findViewById(R.id.edit_tel);
 		mTel_num.setText(oldnum);
     }
