@@ -17,4 +17,5 @@
 	<string name="locationmessage">Are Open GPS?</string>
 	<string name="location_menu">location</string>
 	<string name="sim_change">sim changed</string>
+	<string name="location_now">location now</string>
 </resources>

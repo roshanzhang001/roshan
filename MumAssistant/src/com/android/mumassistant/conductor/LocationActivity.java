@@ -17,6 +17,8 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -157,5 +159,28 @@ OnGetGeoCoderResultListener{
 		mMapView.onResume();
 		
 	}
+	
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        menu.add(0, 1, 0, R.string.location_now);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	 switch (item.getItemId()) {
+    	 	case 1:
+    	 		LocationNow locationnow = new LocationNow(getApplicationContext());
+    	 		locationnow.getLocation();
+    	 		
+    	 		break;
+    	 	default:
+    	 		break;
+    	 }
+		return false;
+    	
+    }
 
 }

@@ -42,7 +42,7 @@ public class LocationNow {
 		mContext = context;
 	}
 	
-	private void getLocation(){
+	public void getLocation(){
 		if(mContext == null){
 			return;
 		}
