@@ -2,6 +2,8 @@ package com.android.mumassistant.control;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -39,17 +41,20 @@ public class ShortCutService extends Service{
 	public void onStart(Intent intent, int startId) {
 		// TODO Auto-generated method stub
 		super.onStart(intent, startId);
-		int msg = intent.getIntExtra("MSG",0);
+		
 		
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
-		String SDpath = Environment.getExternalStorageDirectory().toString() + "/";
-		mFile = new File(SDpath, "123.png");
+		String SDpath = Environment.getExternalStorageDirectory().toString() + File. separator+"Screenshot.png";
+		startShot();
+		mFile = new File(SDpath);
+		if(mFile != null){
+			uploadFile(mFile);
+		}
 		return super.onStartCommand(intent, flags, startId);
-		
 		
 	}
 
@@ -64,7 +69,6 @@ public class ShortCutService extends Service{
 	            params.put("fileName", imageFile.getName());
 	            //上传文件
 	            FormFile formfile = new FormFile(imageFile.getName(), imageFile, "image", "application/octet-stream");
-	            
 	            SocketHttpRequester.post(requestUrl, params, formfile);
 	            Log.i(TAG, "upload success");
 	        } catch (Exception e) {
@@ -73,7 +77,8 @@ public class ShortCutService extends Service{
 	        }
 	}
 	
-	private byte[] startShot(){
+	private void startShot(){
+		String ShutCutPath = Environment.getExternalStorageDirectory().toString() + File. separator+"Screenshot.png";
 		WindowManager mWindowManager = (WindowManager)getSystemService(getApplicationContext().WINDOW_SERVICE);
 		Display mDisplay = mWindowManager.getDefaultDisplay();
 		Matrix mDisplayMatrix = new Matrix();	
@@ -114,11 +119,20 @@ public class ShortCutService extends Service{
 			e.printStackTrace();
 		}
 		 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		mScreenBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		//ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		//mScreenBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		
+		try {
+			FileOutputStream out = new FileOutputStream(ShutCutPath);
+			mScreenBitmap.compress(Bitmap.CompressFormat. PNG, 100, out);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//Bitmap Bmp = Bitmap.createBitmap( w, h, Config.ARGB_8888 );
-		return baos.toByteArray();
+		//return baos.toByteArray();
+		return;
 	}
 	
     private float getDegreesForRotation(int value) {
