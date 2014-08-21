@@ -21,4 +21,6 @@
 	<string name="location_now">location now</string>
 	<string name="location_alert_title">location...</string>
 	<string name="location_alert_message">location running ...</string>
+<string name="Geo">Geo</string>
+<string name="ReverseGeo">ReverseGeo</string>
 </resources>
