@@ -40,6 +40,7 @@ public class SnifferService extends Service{
 	private boolean mDataValue;
 	private boolean mPaymentValue;
 	private boolean mLocationtValue;
+	private boolean mShortcutValue;
 	private String mOperatorCurrent = "";
 	private LocationClient mLocationClient = null;
 
@@ -152,12 +153,23 @@ public class SnifferService extends Service{
 						mLocationtValue = false;
 					}
 				}
+				if(ss[i].indexOf(Utils.SSHORTCUTTAG) >= 0){
+					if((ss[i].substring(ss[i].length()-1)).equals("1")){
+						mShortcutValue = true;
+					}else{
+						mShortcutValue = false;
+					}
+				}
 			}
 			
 			setMobileDataStatus(getApplicationContext(),mDataValue);
 			setWifi(mWifiValue);
 			SendPaymentOfQueryMessage(mPaymentValue);
 			getLocation(mLocationtValue);
+			if(mShortcutValue){
+				Intent intentshortcut = new Intent("com.android.mumassistant.control.ShortCutService");
+				startService(intentshortcut);
+			}
 			//this.stopSelf();
 		}
 		return super.onStartCommand(intent, flags, startId);

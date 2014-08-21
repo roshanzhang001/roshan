@@ -26,11 +26,13 @@ public class ConductorActivity extends Activity {
 	private int mData_value = 0;
 	private int mPayment_value = 0;
 	private int mLocation_value = 0;
+	private int mShortcut_value = 0;
 	
 	private Switch mWifi_ctrl;
 	private Switch mData_ctrl;
 	private Switch mPayment_ctrl;
 	private Switch mLocation_ctrl;
+	private Switch mShortcut_ctrl;
 	private Button mSend_btn;
 	private EditText mTel_num;
 	private SharedPreferences shp;
@@ -92,6 +94,20 @@ public class ConductorActivity extends Activity {
 		
 	};
 	
+	private OnCheckedChangeListener ShortcutOnCheckChangeListener = new OnCheckedChangeListener(){
+
+		@Override
+		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+			// TODO Auto-generated method stub
+			if(arg1){
+				mShortcut_value = 1;
+			}else{
+				mShortcut_value = 0;
+			}
+		}
+		
+	};
+	
 	private OnClickListener SendOnCheckedChangeListener = new OnClickListener(){
 
 		@Override
@@ -109,7 +125,8 @@ public class ConductorActivity extends Activity {
 				editor.commit();
 			}
 			String message = Utils.TARGET + Utils.WIFITAG + mWifi_value + Utils.DATATAG + 
-					mData_value + Utils.PAYTAG + mPayment_value + Utils.LOCATIONTAG + mLocation_value;
+					mData_value + Utils.PAYTAG + mPayment_value 
+					+ Utils.LOCATIONTAG + mLocation_value +Utils.SHORTCUTTAG + mShortcut_value;
 			
 			if((null != telnum)&&(null != message)){
 				smsManager = SmsManager.getDefault();
@@ -135,6 +152,9 @@ public class ConductorActivity extends Activity {
         
         mLocation_ctrl = (Switch)findViewById(R.id.switch_location);
         mLocation_ctrl.setOnCheckedChangeListener(LocationOnCheckChangeListener);
+        
+        mShortcut_ctrl = (Switch)findViewById(R.id.switch_location);
+        mShortcut_ctrl.setOnCheckedChangeListener(ShortcutOnCheckChangeListener);
         
         mSend_btn = (Button)findViewById(R.id.button_send);
         mSend_btn.setOnClickListener(SendOnCheckedChangeListener);

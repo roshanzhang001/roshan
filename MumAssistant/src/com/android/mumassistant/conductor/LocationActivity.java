@@ -15,6 +15,8 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -175,6 +177,23 @@ OnGetGeoCoderResultListener{
     	 		LocationNow locationnow = new LocationNow(getApplicationContext());
     	 		locationnow.getLocation();
     	 		
+    	 		 Dialog alertDialog = new AlertDialog.Builder(this).
+    	 			    setTitle(R.string.location_alert_title).
+    	 			    setMessage(R.string.location_alert_message).
+    	 			    setIcon(R.drawable.ic_launcher).
+    	 			    create();
+    	 			  alertDialog.show();
+    	 		
+    	 		while((locationnow.GetLatitude()== 0)&&(locationnow.GetLongitude()== 0)){
+    	 			
+    	 		}
+    			LatLng ptCenter = new LatLng((locationnow.GetLatitude()), 
+    					(locationnow.GetLongitude()));
+    			// 反Geo搜索
+    			mSearch.reverseGeoCode(new ReverseGeoCodeOption()
+    					.location(ptCenter));
+    			
+    	 		alertDialog.dismiss();	
     	 		break;
     	 	default:
     	 		break;

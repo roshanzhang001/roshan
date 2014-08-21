@@ -104,7 +104,11 @@
             </intent-filter>
         </service>
         
-        <service android:name="com.android.mumassistant.control.ShortCutService"></service>
+        <service android:name="com.android.mumassistant.control.ShortCutService">
+            <intent-filter>
+                <action android:name="com.android.mumassistant.control.ShortCutService"/>
+            </intent-filter>
+        </service>
         
         <receiver android:name="com.android.mumassistant.control.SimChangeBroadcast">
             <intent-filter>

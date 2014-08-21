@@ -47,6 +47,15 @@
     android:layout_below="@+id/switch_payment_query"
     android:text="@string/location_ctl" />
 
+<Switch
+    android:id="@+id/switch_shortcut"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/switch_location"
+    android:layout_alignRight="@+id/switch_location"
+    android:layout_below="@+id/switch_location"
+    android:text="@string/shortcut_ctl" />
+
 <TextView 
     android:id="@+id/text_tel"
     android:layout_width="wrap_content"

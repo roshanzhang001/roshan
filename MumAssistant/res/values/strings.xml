@@ -7,6 +7,7 @@
 	<string name="data_ctl">data connect</string>
 	<string name="payment_query_ctl">payment of the query</string>
 	<string name="location_ctl">location tag</string>
+	<string name="shortcut_ctl">shortcut tag</string>
 	<string name="send">send control</string>
 	<string name="tel_num">you want control tel num:</string>
 
@@ -18,4 +19,6 @@
 	<string name="location_menu">location</string>
 	<string name="sim_change">sim changed</string>
 	<string name="location_now">location now</string>
+	<string name="location_alert_title">location...</string>
+	<string name="location_alert_message">location running ...</string>
 </resources>

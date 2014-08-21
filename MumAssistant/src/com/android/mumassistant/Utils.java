@@ -11,6 +11,7 @@ public class Utils {
 	public final static String DATATAG = "#data_";
 	public final static String PAYTAG = "#payment_";
 	public final static String LOCATIONTAG = "#location_";
+	public final static String SHORTCUTTAG = "#shortcut_";
 	
 	public final static String LOCALSMSTAG = "**XY";
 	public final static String SPLIT = "#";
@@ -22,4 +23,5 @@ public class Utils {
 	public final static String SSDATATAG = "data_";
 	public final static String SSPAYTAG = "payment_";
 	public final static String SSLOCALTAG = "location_";
+	public final static String SSHORTCUTTAG = "shortcut_";
 }
