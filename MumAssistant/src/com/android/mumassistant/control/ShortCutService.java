@@ -1,6 +1,5 @@
 package com.android.mumassistant.control;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -10,53 +9,41 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.app.Service;
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Environment;
-import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
-public class ShortCutService extends Service{
+public class ShortCutService extends Thread{
 	private final static String TAG = "ShortCutService";
 	private File mFile;
-	@Override
-	public IBinder onBind(Intent arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	private Context mContext = null;
+	
+	public boolean ContextIsOk(Context context){
+		if(mContext == null){
+			mContext = context;
+		}	
+		return true;
 	}
-
+	
 	@Override
-	public void onCreate() {
+	public void run() {
 		// TODO Auto-generated method stub
-		super.onCreate();
-	}
-
-	@Override
-	@Deprecated
-	public void onStart(Intent intent, int startId) {
-		// TODO Auto-generated method stub
-		super.onStart(intent, startId);
-		
-		
-	}
-
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		// TODO Auto-generated method stub
+		if(mContext == null){
+			return;
+		}
 		String SDpath = Environment.getExternalStorageDirectory().toString() + File. separator+"Screenshot.png";
 		startShot();
 		mFile = new File(SDpath);
 		if(mFile != null){
 			uploadFile(mFile);
 		}
-		return super.onStartCommand(intent, flags, startId);
-		
+		super.run();
 	}
 
 	public void uploadFile(File imageFile) {
@@ -80,7 +67,7 @@ public class ShortCutService extends Service{
 	
 	private void startShot(){
 		String ShutCutPath = Environment.getExternalStorageDirectory().toString() + File. separator+"Screenshot.png";
-		WindowManager mWindowManager = (WindowManager)getSystemService(getApplicationContext().WINDOW_SERVICE);
+		WindowManager mWindowManager = (WindowManager)mContext.getSystemService(mContext.WINDOW_SERVICE);
 		Display mDisplay = mWindowManager.getDefaultDisplay();
 		Matrix mDisplayMatrix = new Matrix();	
 		DisplayMetrics mDisplayMetrics = new DisplayMetrics();
@@ -99,7 +86,7 @@ public class ShortCutService extends Service{
 		}
 		//mScreenBitmap = Surface.screenshot((int) dims[0], (int) dims[1]);
 		try {
-			Class<?> testClass = Class.forName(Surface.class.getName());
+			Class<?> testClass = Class.forName("android.view.SurfaceControl"/*.class.getName()*/);
 			Method[] methods = testClass.getMethods();
 			Method saddMethod1 = testClass.getMethod("screenshot", new Class[]{int.class ,int.class});
 			mScreenBitmap = (Bitmap) saddMethod1.invoke(null, new Object[]{(int) dims[0],(int) dims[1]});

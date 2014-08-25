@@ -29,7 +29,8 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <!--  
+    <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER"/>
+    <!--   
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
     -->
     <application
@@ -103,13 +104,7 @@
                     android:exported="false"/>
             </intent-filter>
         </service>
-        
-        <service android:name="com.android.mumassistant.control.ShortCutService">
-            <intent-filter>
-                <action android:name="com.android.mumassistant.control.ShortCutService"/>
-            </intent-filter>
-        </service>
-        
+             
         <receiver android:name="com.android.mumassistant.control.SimChangeBroadcast">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

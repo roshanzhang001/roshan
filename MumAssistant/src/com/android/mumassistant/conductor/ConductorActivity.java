@@ -153,7 +153,7 @@ public class ConductorActivity extends Activity {
         mLocation_ctrl = (Switch)findViewById(R.id.switch_location);
         mLocation_ctrl.setOnCheckedChangeListener(LocationOnCheckChangeListener);
         
-        mShortcut_ctrl = (Switch)findViewById(R.id.switch_location);
+        mShortcut_ctrl = (Switch)findViewById(R.id.switch_shortcut);
         mShortcut_ctrl.setOnCheckedChangeListener(ShortcutOnCheckChangeListener);
         
         mSend_btn = (Button)findViewById(R.id.button_send);

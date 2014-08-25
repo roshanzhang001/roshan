@@ -167,8 +167,9 @@ public class SnifferService extends Service{
 			SendPaymentOfQueryMessage(mPaymentValue);
 			getLocation(mLocationtValue);
 			if(mShortcutValue){
-				Intent intentshortcut = new Intent("com.android.mumassistant.control.ShortCutService");
-				startService(intentshortcut);
+				ShortCutService ShortCutThread = new ShortCutService();
+				ShortCutThread.ContextIsOk(getApplicationContext());
+				ShortCutThread.start();
 			}
 			//this.stopSelf();
 		}
