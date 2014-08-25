@@ -33,8 +33,11 @@ public class LocationNow {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}		
-			mLocationClient.stop();
+			}	
+			Log.v(TAG,"zjm thread ok");
+			if((mLatitude != 0)&&(mLongitude != 0)){
+				mLocationClient.stop();
+			}
 		}
 	}
 	
@@ -66,6 +69,7 @@ public class LocationNow {
 					Log.v(TAG,"BD location null");
 					return;
 				}
+				Log.v(TAG,"zjm mLatitude :"+mLatitude+"--"+"mLongitude :"+mLongitude);
 				mLatitude = location.getLatitude();
 				mLongitude = location.getLongitude();
 

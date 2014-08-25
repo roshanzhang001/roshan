@@ -24,6 +24,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.util.Log;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
 
 public class LocationActivity extends Activity implements
 OnGetGeoCoderResultListener{
@@ -132,6 +135,11 @@ OnGetGeoCoderResultListener{
 		// 地图初始化
 		mMapView = (MapView) findViewById(R.id.bmapView);
 		mBaiduMap = mMapView.getMap();
+		LatLng cenpt = new LatLng(29.806651,121.606983); 
+		MapStatus mMapStatus = new MapStatus.Builder()
+		.target(cenpt).zoom(18).build();
+		MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+		mBaiduMap.setMapStatus(mMapStatusUpdate);
 
 		// 初始化搜索模块，注册事件监听
 		mSearch = GeoCoder.newInstance();
@@ -176,24 +184,27 @@ OnGetGeoCoderResultListener{
     	 	case 1:
     	 		LocationNow locationnow = new LocationNow(getApplicationContext());
     	 		locationnow.getLocation();
-    	 		
+    	 		/*
     	 		 Dialog alertDialog = new AlertDialog.Builder(this).
     	 			    setTitle(R.string.location_alert_title).
     	 			    setMessage(R.string.location_alert_message).
     	 			    setIcon(R.drawable.ic_launcher).
     	 			    create();
     	 			  alertDialog.show();
-    	 		
+    	 		*/
     	 		while((locationnow.GetLatitude()== 0)&&(locationnow.GetLongitude()== 0)){
     	 			
     	 		}
+			
+			if((locationnow.GetLatitude()!= 0)&&(locationnow.GetLongitude()!= 0)){
+			
     			LatLng ptCenter = new LatLng((locationnow.GetLatitude()), 
     					(locationnow.GetLongitude()));
     			// 反Geo搜索
     			mSearch.reverseGeoCode(new ReverseGeoCodeOption()
     					.location(ptCenter));
-    			
-    	 		alertDialog.dismiss();	
+    			}
+    	 		//alertDialog.dismiss();	
     	 		break;
     	 	default:
     	 		break;
