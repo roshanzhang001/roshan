@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,12 +61,12 @@ public class ShortCutService extends Service{
 
 	public void uploadFile(File imageFile) {
 		 try {
-	            String requestUrl = "http://192.168.1.101:8083/upload/upload/execute.do";
+	            String requestUrl = "http://192.168.29.69:9090/upload/upload.action";
 	            //请求普通信息
 	            Map<String, String> params = new HashMap<String, String>();
-	            params.put("username", "张三");
-	            params.put("pwd", "zhangsan");
-	            params.put("age", "21");
+	            SimpleDateFormat   sDateFormat   =   new   SimpleDateFormat("yyyy-MM-dd   hh:mm:ss");
+	            String   date   =   sDateFormat.format(new   java.util.Date()); 
+	            params.put("date", date);
 	            params.put("fileName", imageFile.getName());
 	            //上传文件
 	            FormFile formfile = new FormFile(imageFile.getName(), imageFile, "image", "application/octet-stream");
