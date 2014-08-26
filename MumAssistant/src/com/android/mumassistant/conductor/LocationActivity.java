@@ -15,7 +15,6 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +26,9 @@ import android.widget.Toast;
 import android.util.Log;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
+import android.os.Handler;
+import android.os.Message;
+
 
 public class LocationActivity extends Activity implements
 OnGetGeoCoderResultListener{
@@ -38,7 +40,24 @@ OnGetGeoCoderResultListener{
 	private EditText mLon_edit;
 	private EditText mEditCity;
 	private EditText mEditGeoCodeKey;
-	
+	private LocationNow mLocationnow = null;
+
+	Handler mLocationHandler = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			
+			Log.v("","zjm handler:"+mLocationnow.GetLatitude()+"--"+"mLongitude :"+mLocationnow.GetLongitude());
+			if((mLocationnow.GetLatitude()!=0)&&(mLocationnow.GetLatitude()!=0)){
+				mLat_edit.setText(mLocationnow.GetLatitude()+"");
+				mLon_edit.setText(mLocationnow.GetLongitude()+"");
+			}
+			super.handleMessage(msg);
+		}
+		
+	};
+
 	public void SearchButtonProcess(View v) {
 		if (v.getId() == R.id.reversegeocode) {
 			String lat_str = mLat_edit.getText().toString();
@@ -106,8 +125,12 @@ OnGetGeoCoderResultListener{
 				Toast.LENGTH_LONG).show();
 		
 		String[] ss = result.getAddress().split("市");
-		mEditCity.setText(ss[0]);
-		mEditGeoCodeKey.setText(ss[1]);
+		if(ss.length >1){
+			mEditCity.setText(ss[0]);
+			mEditGeoCodeKey.setText(ss[1]);
+		}else{
+			mEditGeoCodeKey.setText(result.getAddress());
+		}
 	}
 
 	@Override
@@ -134,15 +157,15 @@ OnGetGeoCoderResultListener{
 		}
 		// 地图初始化
 		mMapView = (MapView) findViewById(R.id.bmapView);
-		mBaiduMap = mMapView.getMap();
-		LatLng cenpt = new LatLng(29.806651,121.606983); 
-		mLat_edit.setText("29.806651");
-		mLon_edit.setText("121.606983");
+		mBaiduMap = mMapView.getMap();	
+
+	
+		LatLng cenpt = new LatLng(31.211326,121.595937); 
 		MapStatus mMapStatus = new MapStatus.Builder()
 		.target(cenpt).zoom(18).build();
 		MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
 		mBaiduMap.setMapStatus(mMapStatusUpdate);
-
+		
 		// 初始化搜索模块，注册事件监听
 		mSearch = GeoCoder.newInstance();
 		mSearch.setOnGetGeoCodeResultListener(this);
@@ -184,29 +207,13 @@ OnGetGeoCoderResultListener{
     public boolean onOptionsItemSelected(MenuItem item) {
     	 switch (item.getItemId()) {
     	 	case 1:
-    	 		LocationNow locationnow = new LocationNow(getApplicationContext());
-    	 		locationnow.getLocation();
-    	 		/*
-    	 		 Dialog alertDialog = new AlertDialog.Builder(this).
-    	 			    setTitle(R.string.location_alert_title).
-    	 			    setMessage(R.string.location_alert_message).
-    	 			    setIcon(R.drawable.ic_launcher).
-    	 			    create();
-    	 			  alertDialog.show();
-    	 		*/
-    	 		while((locationnow.GetLatitude()== 0)&&(locationnow.GetLongitude()== 0)){
-    	 			
-    	 		}
-			
-			if((locationnow.GetLatitude()!= 0)&&(locationnow.GetLongitude()!= 0)){
-			
-    			LatLng ptCenter = new LatLng((locationnow.GetLatitude()), 
-    					(locationnow.GetLongitude()));
-    			// 反Geo搜索
-    			mSearch.reverseGeoCode(new ReverseGeoCodeOption()
-    					.location(ptCenter));
-    			}
-    	 		//alertDialog.dismiss();	
+			if(mLocationnow == null){
+    	 			mLocationnow = new LocationNow();
+			}
+    	 		mLocationnow.getLocation(this);
+
+			Message msg = new Message();
+			mLocationHandler.sendMessageDelayed(msg,1500);
     	 		break;
     	 	default:
     	 		break;
