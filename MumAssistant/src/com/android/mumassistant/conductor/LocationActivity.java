@@ -136,6 +136,8 @@ OnGetGeoCoderResultListener{
 		mMapView = (MapView) findViewById(R.id.bmapView);
 		mBaiduMap = mMapView.getMap();
 		LatLng cenpt = new LatLng(29.806651,121.606983); 
+		mLat_edit.setText("29.806651");
+		mLon_edit.setText("121.606983");
 		MapStatus mMapStatus = new MapStatus.Builder()
 		.target(cenpt).zoom(18).build();
 		MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
