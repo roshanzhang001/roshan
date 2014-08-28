@@ -23,4 +23,5 @@
 	<string name="location_alert_message">location running ...</string>
 <string name="Geo">Geo</string>
 <string name="ReverseGeo">ReverseGeo</string>
+<string name="downloadshow">downloadshow</string>
 </resources>

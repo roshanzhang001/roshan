@@ -171,6 +171,7 @@ public class ConductorActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         menu.add(0, 1, 0, R.string.location_menu);
+	menu.add(0, 2, 0, R.string.downloadshow);
         return true;
     }
     @Override
@@ -181,6 +182,11 @@ public class ConductorActivity extends Activity {
     	 		locationView.setClass(this, LocationActivity.class);
     	 		startActivity(locationView);
     	 		break;
+		case 2:
+			Intent downloadView = new Intent();
+    	 		downloadView.setClass(this, DownloadShow.class);
+    	 		startActivity(downloadView);
+			break;
     	 	default:
     	 		break;
     	 }

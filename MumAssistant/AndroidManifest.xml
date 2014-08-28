@@ -75,10 +75,18 @@
             android:name="com.android.mumassistant.control.SnifferSettingView" >
             <intent-filter>
                 <action android:name="com.android.mumassistant.control.SnifferSettingView" />
-				<category android:name="android.intent.category.DEFAULT"/>
+		<category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
+        <activity
+            android:name="com.android.mumassistant.conductor.DownloadShow" >
+            <intent-filter>
+                <action android:name="com.android.mumassistant.conductor.DownloadShow" />
+		<category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
         <service android:name="com.android.mumassistant.control.SnifferService">
         </service>
         
