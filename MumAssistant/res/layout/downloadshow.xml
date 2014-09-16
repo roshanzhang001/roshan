@@ -15,5 +15,15 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:max="100" />
+    <Button
+        android:id="@+id/showbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show" />
+    <ImageView
+        android:id="@+id/myView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
     
 </LinearLayout>

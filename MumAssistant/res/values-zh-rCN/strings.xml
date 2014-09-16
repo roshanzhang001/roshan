@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">妈妈帮手</string>
+    <string name="action_settings">设置</string>
+	<string name="wifi_ctl">WLAN</string>
+	<string name="data_ctl">数据连接</string>
+	<string name="payment_query_ctl">花费查询</string>
+	<string name="location_ctl">标记定位</string>
+	<string name="shortcut_ctl">获取抓图</string>
+	<string name="send">发送命令</string>
+	<string name="tel_num">想要控制的手机号码:</string>
+
+
+	<string name="run_title">运行应用</string>
+	<string name="explain">当你选中的时候，应用即被运行</string>
+	<string name="Edit_title">请输入号码</string>
+	<string name="locationmessage">是否打开GPS?</string>
+	<string name="location_menu">定位</string>
+	<string name="sim_change">sim卡被替换</string>
+	<string name="location_now">立刻定位</string>
+	<string name="location_alert_title">定位。。。。</string>
+	<string name="location_alert_message">定位运行中 ...</string>
+	<string name="Geo">地址定位</string>
+	<string name="ReverseGeo">坐标定位</string>
+	<string name="downloadshow">下载抓图</string>
+	<string name="show">查看</string>
+</resources>

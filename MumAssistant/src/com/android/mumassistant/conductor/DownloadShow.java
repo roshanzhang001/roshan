@@ -20,6 +20,14 @@ import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import com.android.mumassistant.Utils;
+import android.graphics.BitmapFactory;
+import android.widget.Button;
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+import android.view.View;
 
 public class DownloadShow extends Activity{
     /** Called when the activity is first created. */  
@@ -28,16 +36,31 @@ public class DownloadShow extends Activity{
     int   fileSize;  
     int   downLoadFileSize;  
     String fileEx,fileNa,filename;  
+    private ImageView myView = null;
+    private Button mShowButton = null;
+    SharedPreferences shp = null;
+
     @Override  
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
         setContentView(R.layout.downloadshow);  
-        pb=(ProgressBar)findViewById(R.id.down_pb);  
-        tv=(TextView)findViewById(R.id.tv);  
+        pb=(ProgressBar)findViewById(R.id.down_pb); 
+	myView = (ImageView)findViewById(R.id.myView); 
+        tv=(TextView)findViewById(R.id.tv); 
+
+
+        mShowButton=(Button)findViewById(R.id.showbutton);
+        mShowButton.setOnClickListener(new ShowClick());
+        
+        if(shp == null){
+        	shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        }
+	final String telnum = shp.getString(Utils.TELNUM, "");
+
         new Thread(){  
             public void run(){  
                 try {  
-                    down_file("http://www.mtkfan.com:8080/upload/image/Screenshot.png",Environment.getExternalStorageDirectory().toString() + File. separator);  
+                    down_file("http://www.mtkfan.com:8080/upload/image/"+telnum+".png",Environment.getExternalStorageDirectory().toString() + File. separator);  
                     //下载文件，参数：第一个URL，第二个存放路径  
                 } catch (ClientProtocolException e) {  
                     // TODO Auto-generated catch block  
@@ -48,9 +71,28 @@ public class DownloadShow extends Activity{
                 }  
             }  
         }.start();  
-   
-   
     }
+
+    class ShowClick implements Button.OnClickListener{
+
+		@Override
+		public void onClick(View arg0) {
+			// TODO Auto-generated method stub
+			BitmapFactory.Options option = new BitmapFactory.Options();
+			option.inSampleSize = 1;
+	        if(shp == null){
+	        	shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+	        }      
+		    final String telnum = shp.getString(Utils.TELNUM, "");
+		    String path = Environment.getExternalStorageDirectory().toString() + File. separator+telnum+".png";
+			Bitmap bm = BitmapFactory.decodeFile(path,option);
+			myView.setImageBitmap(bm);
+			
+		}
+    	
+    }
+
+
     private Handler handler = new Handler()  
       {  
         @Override  
@@ -68,7 +110,8 @@ public class DownloadShow extends Activity{
                 tv.setText(result + "%");  
                 break;  
               case 2:  
-                Toast.makeText(DownloadShow.this, "文件下载完成", 1).show();  
+                Toast.makeText(DownloadShow.this, "文件下载完成", 1).show();
+		
                 break;  
    
               case -1:  

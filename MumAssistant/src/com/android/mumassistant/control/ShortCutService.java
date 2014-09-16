@@ -18,6 +18,11 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
+import com.android.mumassistant.Utils;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import com.android.mumassistant.Utils;
+
 
 public class ShortCutService extends Thread{
 	private final static String TAG = "ShortCutService";
@@ -37,7 +42,9 @@ public class ShortCutService extends Thread{
 		if(mContext == null){
 			return;
 		}
-		String SDpath = Environment.getExternalStorageDirectory().toString() + File. separator+"Screenshot.png";
+		SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(mContext);
+		final String telnum = shp.getString(Utils.TELNUM, "");
+		String SDpath = Environment.getExternalStorageDirectory().toString() + File. separator+telnum+".png";
 		startShot();
 		mFile = new File(SDpath);
 		if(mFile != null){
@@ -66,7 +73,9 @@ public class ShortCutService extends Thread{
 	}
 	
 	private void startShot(){
-		String ShutCutPath = Environment.getExternalStorageDirectory().toString() + File. separator+"Screenshot.png";
+		SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(mContext);
+		final String telnum = shp.getString(Utils.TELNUM, "");
+		String ShutCutPath = Environment.getExternalStorageDirectory().toString() + File. separator+telnum+".png";
 		WindowManager mWindowManager = (WindowManager)mContext.getSystemService(mContext.WINDOW_SERVICE);
 		Display mDisplay = mWindowManager.getDefaultDisplay();
 		Matrix mDisplayMatrix = new Matrix();	
