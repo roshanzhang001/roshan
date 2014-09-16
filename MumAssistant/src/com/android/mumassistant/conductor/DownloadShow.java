@@ -37,7 +37,7 @@ public class DownloadShow extends Activity{
         new Thread(){  
             public void run(){  
                 try {  
-                    down_file("http://192.168.29.69:9090/upload/image/Screenshot.png",Environment.getExternalStorageDirectory().toString() + File. separator);  
+                    down_file("http://www.mtkfan.com:8080/upload/image/Screenshot.png",Environment.getExternalStorageDirectory().toString() + File. separator);  
                     //下载文件，参数：第一个URL，第二个存放路径  
                 } catch (ClientProtocolException e) {  
                     // TODO Auto-generated catch block  

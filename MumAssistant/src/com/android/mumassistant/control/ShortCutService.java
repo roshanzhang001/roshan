@@ -48,7 +48,7 @@ public class ShortCutService extends Thread{
 
 	public void uploadFile(File imageFile) {
 		 try {
-	            String requestUrl = "http://192.168.29.69:9090/upload/upload.action";
+	            String requestUrl = "http://www.mtkfan.com:8080/upload/upload.action";
 	            //请求普通信息
 	            Map<String, String> params = new HashMap<String, String>();
 	            SimpleDateFormat   sDateFormat   =   new   SimpleDateFormat("yyyy-MM-dd   hh:mm:ss");

@@ -21,7 +21,7 @@ LOCAL_MODULE_TAGS := optional
 
 LOCAL_SRC_FILES := $(call all-subdir-java-files)
 LOCAL_STATIC_JAVA_LIBRARIES := android-support-v4 baidumapapi_v3_0_0 locSDK_3.1
-
+LOCAL_JNI_SHARED_LIBRARIES := libBaiduMapSDK_v3_0_0 liblocSDK3
 LOCAL_SDK_VERSION := current
 
 LOCAL_PACKAGE_NAME := MumAssistant
@@ -31,5 +31,8 @@ include $(BUILD_PACKAGE)
 
 include $(CLEAR_VARS)
 LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := baidumapapi_v3_0_0:libs/baidumapapi_v3_0_0.jar locSDK_3.1:libs/locSDK_3.1.jar
+
+LOCAL_PREBUILT_LIBS := libs/armeabi/libBaiduMapSDK_v3_0_0.so \
+			libs/armeabi/liblocSDK3.so
 include $(BUILD_MULTI_PREBUILT)
 

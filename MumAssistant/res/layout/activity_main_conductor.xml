@@ -26,6 +26,7 @@
     android:layout_alignRight="@+id/switch_wifi"
     android:layout_below="@+id/switch_wifi"
     android:text="@string/data_ctl"
+    android:layout_marginTop="10dip"
     />
 
 <Switch 
@@ -36,6 +37,7 @@
     android:layout_alignRight="@+id/switch_data"
     android:layout_below="@+id/switch_data"
     android:text="@string/payment_query_ctl"
+    android:layout_marginTop="10dip"
     />
 
 <Switch
@@ -45,7 +47,8 @@
     android:layout_alignLeft="@+id/switch_payment_query"
     android:layout_alignRight="@+id/switch_payment_query"
     android:layout_below="@+id/switch_payment_query"
-    android:text="@string/location_ctl" />
+    android:text="@string/location_ctl"
+    android:layout_marginTop="10dip" />
 
 <Switch
     android:id="@+id/switch_shortcut"
@@ -54,7 +57,8 @@
     android:layout_alignLeft="@+id/switch_location"
     android:layout_alignRight="@+id/switch_location"
     android:layout_below="@+id/switch_location"
-    android:text="@string/shortcut_ctl" />
+    android:text="@string/shortcut_ctl"
+    android:layout_marginTop="10dip" />
 
 <TextView 
     android:id="@+id/text_tel"
