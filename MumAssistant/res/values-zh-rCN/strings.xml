@@ -5,7 +5,7 @@
     <string name="action_settings">设置</string>
 	<string name="wifi_ctl">WLAN</string>
 	<string name="data_ctl">数据连接</string>
-	<string name="payment_query_ctl">花费查询</string>
+	<string name="payment_query_ctl">话费查询</string>
 	<string name="location_ctl">标记定位</string>
 	<string name="shortcut_ctl">获取抓图</string>
 	<string name="send">发送命令</string>

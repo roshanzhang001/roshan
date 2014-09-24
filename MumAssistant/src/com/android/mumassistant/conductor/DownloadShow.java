@@ -55,7 +55,7 @@ public class DownloadShow extends Activity{
         if(shp == null){
         	shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         }
-	final String telnum = shp.getString(Utils.TELNUM, "");
+	final String telnum = shp.getString(Utils.CTRLNUM, "");
 
         new Thread(){  
             public void run(){  
@@ -83,7 +83,7 @@ public class DownloadShow extends Activity{
 	        if(shp == null){
 	        	shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 	        }      
-		    final String telnum = shp.getString(Utils.TELNUM, "");
+		    final String telnum = shp.getString(Utils.CTRLNUM, "");
 		    String path = Environment.getExternalStorageDirectory().toString() + File. separator+telnum+".png";
 			Bitmap bm = BitmapFactory.decodeFile(path,option);
 			myView.setImageBitmap(bm);

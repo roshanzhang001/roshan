@@ -8,58 +8,161 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-<Switch 
-    android:id="@+id/switch_wifi"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentTop="true"
-    android:text="@string/wifi_ctl"
-    />
+<RelativeLayout
+    	android:id="@+id/switch_wifi_layout"
+         android:layout_width="match_parent"
+         android:layout_height="40dp"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentRight="true"
+         android:layout_alignParentTop="true"
+         android:orientation="horizontal" > 
 
-<Switch 
-    android:id="@+id/switch_data"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_alignRight="@+id/switch_wifi"
-    android:layout_below="@+id/switch_wifi"
-    android:text="@string/data_ctl"
-    android:layout_marginTop="10dip"
-    />
+	<TextView 
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="10dp"
+		android:textSize="16sp"
+		android:gravity="center_vertical"
+		android:text="@string/wifi_ctl"
+	/>
 
-<Switch 
-    android:id="@+id/switch_payment_query"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_alignRight="@+id/switch_data"
-    android:layout_below="@+id/switch_data"
-    android:text="@string/payment_query_ctl"
-    android:layout_marginTop="10dip"
-    />
+	<com.android.mumassistant.PureSwitch 
+	    android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="10dp"
+		android:layout_marginBottom="10dp"
+	    android:id="@+id/switch_wifi"
+	/> 
+         
+</RelativeLayout>
+<!-- #################################################### -->    
+<RelativeLayout
+    	android:id="@+id/switch_data_layout"
+         android:layout_width="match_parent"
+         android:layout_height="40dp"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentRight="true"
+    	android:layout_alignRight="@+id/switch_wifi_layout"
+    	android:layout_below="@+id/switch_wifi_layout"
+         android:orientation="horizontal" > 
 
-<Switch
-    android:id="@+id/switch_location"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignLeft="@+id/switch_payment_query"
-    android:layout_alignRight="@+id/switch_payment_query"
-    android:layout_below="@+id/switch_payment_query"
-    android:text="@string/location_ctl"
-    android:layout_marginTop="10dip" />
+	<TextView 
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="10dp"
+		android:textSize="16sp"
+		android:gravity="center_vertical"
+		android:text="@string/data_ctl"
+	/>
 
-<Switch
-    android:id="@+id/switch_shortcut"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignLeft="@+id/switch_location"
-    android:layout_alignRight="@+id/switch_location"
-    android:layout_below="@+id/switch_location"
-    android:text="@string/shortcut_ctl"
-    android:layout_marginTop="10dip" />
+	<com.android.mumassistant.PureSwitch 
+	    android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="10dp"
+		android:layout_marginBottom="10dp"
+	    android:id="@+id/switch_data"
+	/> 
+         
+</RelativeLayout>
+<!-- #################################################### --> 
+<RelativeLayout
+    	android:id="@+id/switch_payment_query_layout"
+         android:layout_width="match_parent"
+         android:layout_height="40dp"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentRight="true"
+    	android:layout_below="@+id/switch_data_layout"
+         android:orientation="horizontal" > 
 
+	<TextView 
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="10dp"
+		android:textSize="16sp"
+		android:gravity="center_vertical"
+		android:text="@string/payment_query_ctl"
+	/>
+
+	<com.android.mumassistant.PureSwitch 
+	    android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="10dp"
+		android:layout_marginBottom="10dp"
+	    android:id="@+id/switch_payment_query"
+	/> 
+         
+</RelativeLayout>
+<!-- #################################################### --> 
+<RelativeLayout
+    	android:id="@+id/switch_location_layout"
+         android:layout_width="match_parent"
+         android:layout_height="40dp"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentRight="true"
+    	android:layout_below="@+id/switch_payment_query_layout"
+         android:orientation="horizontal" > 
+
+	<TextView 
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="10dp"
+		android:textSize="16sp"
+		android:gravity="center_vertical"
+		android:text="@string/location_ctl"
+	/>
+
+	<com.android.mumassistant.PureSwitch 
+	    android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="10dp"
+		android:layout_marginBottom="10dp"
+	    android:id="@+id/switch_location"
+	/> 
+         
+</RelativeLayout>
+<!-- #################################################### --> 
+<RelativeLayout
+    	android:id="@+id/switch_shortcut_layout"
+         android:layout_width="match_parent"
+         android:layout_height="40dp"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentRight="true"
+    	android:layout_below="@+id/switch_location_layout"
+         android:orientation="horizontal" > 
+
+	<TextView 
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="10dp"
+		android:textSize="16sp"
+		android:gravity="center_vertical"
+		android:text="@string/shortcut_ctl"
+	/>
+
+	<com.android.mumassistant.PureSwitch 
+	    android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="10dp"
+		android:layout_marginBottom="10dp"
+	    android:id="@+id/switch_shortcut"
+	/> 
+         
+</RelativeLayout>
+<!-- #################################################### --> 
+
+
+
+<!-- #################################################### --> 
 <TextView 
     android:id="@+id/text_tel"
     android:layout_width="wrap_content"
@@ -75,7 +178,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:layout_alignRight="@+id/switch_payment_query"
+    android:layout_alignRight="@+id/switch_payment_query_layout"
     android:text="@string/send" 
     />
 
@@ -84,11 +187,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_above="@+id/button_send"
-    android:layout_alignLeft="@+id/switch_payment_query"
+    android:layout_alignLeft="@+id/switch_payment_query_layout"
     android:ems="10"
     android:inputType="phone" >
 
-    <requestFocus />
 </EditText>
 
 

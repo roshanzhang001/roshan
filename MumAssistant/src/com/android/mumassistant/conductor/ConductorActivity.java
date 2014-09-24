@@ -1,5 +1,7 @@
 package com.android.mumassistant.conductor;
 
+import com.android.mumassistant.PureSwitch;
+import com.android.mumassistant.PureSwitch.OnChangeListener;
 import com.android.mumassistant.R;
 import com.android.mumassistant.Utils;
 
@@ -28,20 +30,20 @@ public class ConductorActivity extends Activity {
 	private int mLocation_value = 0;
 	private int mShortcut_value = 0;
 	
-	private Switch mWifi_ctrl;
-	private Switch mData_ctrl;
-	private Switch mPayment_ctrl;
-	private Switch mLocation_ctrl;
-	private Switch mShortcut_ctrl;
+	private PureSwitch mWifi_ctrl;
+	private PureSwitch mData_ctrl;
+	private PureSwitch mPayment_ctrl;
+	private PureSwitch mLocation_ctrl;
+	private PureSwitch mShortcut_ctrl;
 	private Button mSend_btn;
 	private EditText mTel_num;
 	private SharedPreferences shp;
 	SmsManager smsManager;
 	
-	private OnCheckedChangeListener WifiOnCheckChangeListener = new OnCheckedChangeListener(){
+	private OnChangeListener WifiOnCheckChangeListener = new OnChangeListener(){
 
 		@Override
-		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+		public void onChange(PureSwitch arg0, boolean arg1) {
 			// TODO Auto-generated method stub
 			if(arg1){
 				mWifi_value = 1;
@@ -52,10 +54,10 @@ public class ConductorActivity extends Activity {
 		
 	};
 	
-	private OnCheckedChangeListener DataOnCheckChangeListener = new OnCheckedChangeListener(){
+	private OnChangeListener DataOnCheckChangeListener = new OnChangeListener(){
 
 		@Override
-		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+		public void onChange(PureSwitch arg0, boolean arg1) {
 			// TODO Auto-generated method stub
 			if(arg1){
 				mData_value = 1;
@@ -66,10 +68,10 @@ public class ConductorActivity extends Activity {
 		
 	};
 	
-	private OnCheckedChangeListener PaymentOnCheckChangeListener = new OnCheckedChangeListener(){
+	private OnChangeListener PaymentOnCheckChangeListener = new OnChangeListener(){
 
 		@Override
-		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+		public void onChange(PureSwitch arg0, boolean arg1) {
 			// TODO Auto-generated method stub
 			if(arg1){
 				mPayment_value = 1;
@@ -80,10 +82,10 @@ public class ConductorActivity extends Activity {
 		
 	};
 
-	private OnCheckedChangeListener LocationOnCheckChangeListener = new OnCheckedChangeListener(){
+	private OnChangeListener LocationOnCheckChangeListener = new OnChangeListener(){
 
 		@Override
-		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+		public void onChange(PureSwitch arg0, boolean arg1) {
 			// TODO Auto-generated method stub
 			if(arg1){
 				mLocation_value = 1;
@@ -94,10 +96,10 @@ public class ConductorActivity extends Activity {
 		
 	};
 	
-	private OnCheckedChangeListener ShortcutOnCheckChangeListener = new OnCheckedChangeListener(){
+	private OnChangeListener ShortcutOnCheckChangeListener = new OnChangeListener(){
 
 		@Override
-		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+		public void onChange(PureSwitch arg0, boolean arg1) {
 			// TODO Auto-generated method stub
 			if(arg1){
 				mShortcut_value = 1;
@@ -141,20 +143,20 @@ public class ConductorActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_conductor);
           
-        mWifi_ctrl = (Switch)findViewById(R.id.switch_wifi);
-        mWifi_ctrl.setOnCheckedChangeListener(WifiOnCheckChangeListener);
+        mWifi_ctrl = (PureSwitch)findViewById(R.id.switch_wifi);
+        mWifi_ctrl.setOnChangeListener(WifiOnCheckChangeListener);
         
-        mData_ctrl = (Switch)findViewById(R.id.switch_data);
-        mData_ctrl.setOnCheckedChangeListener(DataOnCheckChangeListener);
+        mData_ctrl = (PureSwitch)findViewById(R.id.switch_data);
+        mData_ctrl.setOnChangeListener(DataOnCheckChangeListener);
         
-        mPayment_ctrl = (Switch)findViewById(R.id.switch_payment_query);
-        mPayment_ctrl.setOnCheckedChangeListener(PaymentOnCheckChangeListener);
+        mPayment_ctrl = (PureSwitch)findViewById(R.id.switch_payment_query);
+        mPayment_ctrl.setOnChangeListener(PaymentOnCheckChangeListener);
         
-        mLocation_ctrl = (Switch)findViewById(R.id.switch_location);
-        mLocation_ctrl.setOnCheckedChangeListener(LocationOnCheckChangeListener);
+        mLocation_ctrl = (PureSwitch)findViewById(R.id.switch_location);
+        mLocation_ctrl.setOnChangeListener(LocationOnCheckChangeListener);
         
-        mShortcut_ctrl = (Switch)findViewById(R.id.switch_shortcut);
-        mShortcut_ctrl.setOnCheckedChangeListener(ShortcutOnCheckChangeListener);
+        mShortcut_ctrl = (PureSwitch)findViewById(R.id.switch_shortcut);
+        mShortcut_ctrl.setOnChangeListener(ShortcutOnCheckChangeListener);
         
         mSend_btn = (Button)findViewById(R.id.button_send);
         mSend_btn.setOnClickListener(SendOnCheckedChangeListener);

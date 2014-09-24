@@ -22,7 +22,7 @@ import com.android.mumassistant.Utils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.android.mumassistant.Utils;
-
+import android.telephony.TelephonyManager;
 
 public class ShortCutService extends Thread{
 	private final static String TAG = "ShortCutService";
@@ -42,8 +42,7 @@ public class ShortCutService extends Thread{
 		if(mContext == null){
 			return;
 		}
-		SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(mContext);
-		final String telnum = shp.getString(Utils.TELNUM, "");
+		final String telnum = getPhonenum();
 		String SDpath = Environment.getExternalStorageDirectory().toString() + File. separator+telnum+".png";
 		startShot();
 		mFile = new File(SDpath);
@@ -73,8 +72,8 @@ public class ShortCutService extends Thread{
 	}
 	
 	private void startShot(){
-		SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(mContext);
-		final String telnum = shp.getString(Utils.TELNUM, "");
+
+		final String telnum = getPhonenum();
 		String ShutCutPath = Environment.getExternalStorageDirectory().toString() + File. separator+telnum+".png";
 		WindowManager mWindowManager = (WindowManager)mContext.getSystemService(mContext.WINDOW_SERVICE);
 		Display mDisplay = mWindowManager.getDefaultDisplay();
@@ -142,5 +141,19 @@ public class ShortCutService extends Thread{
             return 360f - 270f;
         }
         return 0f;
+    }
+    private String getPhonenum(){
+		if(mContext == null){
+			return null;
+		}
+		SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(mContext);
+		TelephonyManager telephonyManager = (TelephonyManager) mContext.
+				getSystemService(Context.TELEPHONY_SERVICE);
+		String num = telephonyManager.getLine1Number();
+		String tel = num.substring(3,num.length());
+		if(tel == null){
+			return null;		
+		}
+    	return tel;
     }
 }
